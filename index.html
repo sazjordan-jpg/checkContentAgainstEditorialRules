@@ -22,43 +22,37 @@
 }
 body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6}
 .page{max-width:760px;margin:0 auto;padding:3.5rem 1.5rem 6rem}
- 
 header{margin-bottom:3rem;padding-bottom:2.5rem;border-bottom:1px solid var(--border)}
 .wordmark{font-family:var(--serif);font-size:2rem;color:var(--accent);letter-spacing:-0.02em;font-style:italic;margin-bottom:0.35rem}
 .tagline{font-size:14px;color:var(--muted);max-width:480px;line-height:1.65}
- 
 .principles-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-bottom:2.5rem}
 .p-pill{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:0.875rem 1rem}
 .p-pill b{display:block;font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
 .p-pill span{font-size:12px;color:var(--text);line-height:1.45}
- 
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem;margin-bottom:1.5rem}
 .card h2{font-family:var(--serif);font-size:1.3rem;font-weight:400;margin-bottom:1.5rem;color:var(--text)}
- 
 label{display:block;font-size:11px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 input[type=text],textarea{width:100%;font-family:var(--sans);font-size:14px;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:10px 13px;outline:none;transition:border-color .15s;resize:vertical;line-height:1.5}
 input[type=text]:focus,textarea:focus{border-color:var(--accent-mid);background:#fff}
 input[type=text].err,textarea.err{border-color:var(--danger)}
 .hint{font-size:12px;color:var(--faint);margin-top:5px;line-height:1.5}
 .field{margin-bottom:1.25rem}
-.field:last-of-type{margin-bottom:0}
 .key-row{display:flex;gap:8px;align-items:flex-start}
 .key-row input{flex:1}
 .key-row a{font-size:12px;color:var(--accent-mid);text-decoration:none;white-space:nowrap;padding-top:11px}
 .key-row a:hover{text-decoration:underline}
  
-.tabs{display:flex;gap:3px;background:var(--bg);border-radius:8px;padding:3px;margin-bottom:1rem;border:1px solid var(--border)}
-.tab{flex:1;font-family:var(--sans);font-size:13px;color:var(--muted);background:transparent;border:none;border-radius:6px;padding:7px 10px;cursor:pointer;transition:background .15s,color .15s}
-.tab.on{background:var(--surface);color:var(--text);font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,.07)}
-.tp{display:none}.tp.on{display:block}
+.how-to{background:var(--accent-light);border:1px solid var(--accent-border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1rem}
+.how-to p{font-size:13px;color:var(--accent);line-height:1.6;margin:0}
+.how-to strong{font-weight:500}
+.how-to ol{margin:8px 0 0 1.1rem;font-size:13px;color:var(--accent);line-height:1.8}
  
-.principles-editor{margin-top:10px}
 .pe-toggle{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .pe-toggle label{margin:0}
 .pe-btns{display:flex;gap:5px}
 .pe-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px}
 .pe-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:0.75rem}
-.pe-card .pname{font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.pe-card .pname{font-size:10px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
 .pe-card .pdesc{font-size:12px;color:var(--text);line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .pe-fields{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;display:flex;flex-direction:column;gap:10px;margin-top:8px}
 .pe-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:0.875rem}
@@ -72,7 +66,6 @@ input[type=text].err,textarea.err{border-color:var(--danger)}
 .btn-primary:active{transform:scale(.98)}
 .btn-primary:disabled{opacity:.4;cursor:not-allowed}
 .btn-row{display:flex;align-items:center;gap:10px;margin-top:1.5rem;flex-wrap:wrap}
- 
 .status{display:none;font-size:13px;padding:11px 14px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg);color:var(--muted);margin-top:1rem;line-height:1.5}
 .status.err{color:var(--danger);border-color:var(--danger-border);background:var(--danger-light)}
 .spin{display:inline-block;width:13px;height:13px;border:2px solid var(--border-strong);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
@@ -85,7 +78,7 @@ input[type=text].err,textarea.err{border-color:var(--danger)}
 .overall .num{font-family:var(--serif);font-size:2.75rem;line-height:1;margin-bottom:2px}
 .overall .lbl{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
 .aud-chip{display:inline-flex;align-items:flex-start;gap:8px;border-radius:var(--radius);padding:8px 12px;font-size:13px;line-height:1.5;margin-bottom:1.5rem;max-width:100%;background:var(--accent-light);border:1px solid var(--accent-border);color:var(--accent)}
-.aud-chip svg{flex-shrink:0;margin-top:2px}
+.aud-chip svg{flex-shrink:0;margin-top:2px;width:14px;height:14px}
 .score-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:10px;margin-bottom:2rem}
 .sc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.875rem;text-align:center}
 .sc .slabel{font-size:10px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
@@ -106,13 +99,11 @@ input[type=text].err,textarea.err{border-color:var(--danger)}
 .rec{background:var(--accent);color:#fff;border-radius:var(--radius-lg);padding:1.5rem;margin-top:1.5rem}
 .rec .rec-lbl{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;opacity:.6;margin-bottom:8px}
 .rec p{font-size:14px;line-height:1.7;opacity:.9}
-.info-note{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;font-size:12px;color:var(--muted);margin-top:1.25rem;line-height:1.5}
  
 .c-g{color:var(--success)}.c-w{color:var(--warn)}.c-d{color:var(--danger)}
-.bg-g{background:var(--success-light);border-color:var(--success-border)}.bg-w{background:var(--warn-light);border-color:var(--warn-border)}.bg-d{background:var(--danger-light);border-color:var(--danger-border)}
+.bg-g{background:var(--success-light);border:1px solid var(--success-border)}.bg-w{background:var(--warn-light);border:1px solid var(--warn-border)}.bg-d{background:var(--danger-light);border:1px solid var(--danger-border)}
 .bar-g{background:#2D7A4A}.bar-w{background:#C07A00}.bar-d{background:#C03030}
 .icon-g{background:var(--success-light);color:var(--success)}.icon-w{background:var(--warn-light);color:var(--warn)}.icon-d{background:var(--danger-light);color:var(--danger)}
- 
 footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--border);font-size:12px;color:var(--faint);text-align:center}
 </style>
 </head>
@@ -144,21 +135,25 @@ footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--border);fon
   </div>
  
   <div class="field">
-    <label>Content source</label>
-    <div class="tabs">
-      <button class="tab on" onclick="switchTab('url')">Fetch from URL</button>
-      <button class="tab" onclick="switchTab('paste')">Paste content</button>
-    </div>
-    <div class="tp on" id="tp-url">
-      <input type="text" id="pageUrl" placeholder="https://example.com/article" />
-      <p class="hint">Page is fetched server-side via the Anthropic API — no CORS issues.</p>
-    </div>
-    <div class="tp" id="tp-paste">
-      <textarea id="pageContent" rows="7" placeholder="Paste the full text of the page here."></textarea>
-    </div>
+    <label>Page URL <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--faint)">(optional — for reference)</span></label>
+    <input type="text" id="pageUrl" placeholder="https://example.com/article" />
   </div>
  
-  <div class="field principles-editor">
+  <div class="field">
+    <label>Page content</label>
+    <div class="how-to">
+      <p><strong>How to copy a page:</strong></p>
+      <ol>
+        <li>Open the page in your browser</li>
+        <li>Press <strong>Ctrl+A</strong> (Windows) or <strong>Cmd+A</strong> (Mac) to select all</li>
+        <li>Press <strong>Ctrl+C</strong> / <strong>Cmd+C</strong> to copy</li>
+        <li>Click in the box below and press <strong>Ctrl+V</strong> / <strong>Cmd+V</strong> to paste</li>
+      </ol>
+    </div>
+    <textarea id="pageContent" rows="8" placeholder="Paste the page content here…"></textarea>
+  </div>
+ 
+  <div class="field">
     <div class="pe-toggle">
       <label>Editorial principles</label>
       <div class="pe-btns">
@@ -201,7 +196,7 @@ const DEFAULTS=[
   {id:'info_type',name:'Information type fit',icon:'list',desc:"Clearly fits one of the 5 buckets: (1) What's new, (2) Getting started, (3) Learning, (4) Doing, (5) Fixing."}
 ];
 let principles=JSON.parse(JSON.stringify(DEFAULTS));
-let activeTab='url',peOpen=false;
+let peOpen=false;
  
 const SVGS={
   users:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
@@ -212,136 +207,49 @@ const SVGS={
   person:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`
 };
  
-function renderPSummary(){
-  document.getElementById('pSummary').innerHTML=principles.map(p=>`<div class="p-pill"><b>${p.name}</b><span>${p.desc}</span></div>`).join('');
-}
-function renderPEGrid(){
-  document.getElementById('peGrid').innerHTML=principles.map(p=>`<div class="pe-card"><div class="pname">${p.name}</div><div class="pdesc">${p.desc}</div></div>`).join('');
-}
-function renderPEFields(){
-  document.getElementById('peFields').innerHTML=principles.map((p,i)=>`<div class="pe-item">
-    <input type="text" value="${p.name}" oninput="updateP(${i},'name',this.value)" placeholder="Principle name"/>
-    <textarea rows="3" oninput="updateP(${i},'desc',this.value)">${p.desc}</textarea>
-  </div>`).join('');
-}
+function renderPSummary(){document.getElementById('pSummary').innerHTML=principles.map(p=>`<div class="p-pill"><b>${p.name}</b><span>${p.desc}</span></div>`).join('');}
+function renderPEGrid(){document.getElementById('peGrid').innerHTML=principles.map(p=>`<div class="pe-card"><div class="pname">${p.name}</div><div class="pdesc">${p.desc}</div></div>`).join('');}
+function renderPEFields(){document.getElementById('peFields').innerHTML=principles.map((p,i)=>`<div class="pe-item"><input type="text" value="${p.name}" oninput="updateP(${i},'name',this.value)" placeholder="Principle name"/><textarea rows="3" oninput="updateP(${i},'desc',this.value)">${p.desc}</textarea></div>`).join('');}
 function updateP(i,f,v){principles[i][f]=v;renderPSummary();renderPEGrid();}
-function togglePE(){
-  peOpen=!peOpen;
-  document.getElementById('peFields').style.display=peOpen?'flex':'none';
-  document.getElementById('peGrid').style.display=peOpen?'none':'grid';
-  document.getElementById('peToggleBtn').textContent=peOpen?'▴ Hide principles':'▸ Edit principles';
-  if(peOpen)renderPEFields();
-}
+function togglePE(){peOpen=!peOpen;document.getElementById('peFields').style.display=peOpen?'flex':'none';document.getElementById('peGrid').style.display=peOpen?'none':'grid';document.getElementById('peToggleBtn').textContent=peOpen?'▴ Hide principles':'▸ Edit principles';if(peOpen)renderPEFields();}
 function resetPE(){principles=JSON.parse(JSON.stringify(DEFAULTS));renderPSummary();renderPEGrid();if(peOpen)renderPEFields();}
-function switchTab(t){
-  activeTab=t;
-  document.querySelectorAll('.tab').forEach((b,i)=>b.classList.toggle('on',(i===0&&t==='url')||(i===1&&t==='paste')));
-  document.getElementById('tp-url').classList.toggle('on',t==='url');
-  document.getElementById('tp-paste').classList.toggle('on',t==='paste');
-}
-function setStatus(msg,isErr){
-  const el=document.getElementById('status');
-  el.style.display='block';el.className='status'+(isErr?' err':'');el.innerHTML=msg;
-}
+function setStatus(msg,isErr){const el=document.getElementById('status');el.style.display='block';el.className='status'+(isErr?' err':'');el.innerHTML=msg;}
 function sc(s){return s>=75?'g':s>=50?'w':'d';}
 function sl(s){return s>=75?'Good':s>=50?'Needs work':'Poor';}
  
 async function runScore(){
   const key=document.getElementById('apiKey').value.trim();
   const aud=document.getElementById('audience').value.trim();
-  const url=document.getElementById('pageUrl').value.trim();
   const paste=document.getElementById('pageContent').value.trim();
+  const url=document.getElementById('pageUrl').value.trim();
   let ok=true;
-  ['apiKey','audience'].forEach(id=>{const v=document.getElementById(id).value.trim();document.getElementById(id).classList.toggle('err',!v);if(!v)ok=false;});
-  if(activeTab==='url'&&!url){document.getElementById('pageUrl').classList.add('err');ok=false;}
-  if(activeTab==='paste'&&!paste){document.getElementById('pageContent').classList.add('err');ok=false;}
+  ['apiKey','audience','pageContent'].forEach(id=>{const v=document.getElementById(id).value.trim();document.getElementById(id).classList.toggle('err',!v);if(!v)ok=false;});
   if(!ok){setStatus('Please fill in all required fields.',true);return;}
  
   document.getElementById('scoreBtn').disabled=true;
   document.getElementById('results').style.display='none';
+  setStatus('<span class="spin"></span>Analysing against editorial principles…');
  
   const pText=principles.map(p=>`${p.name.toUpperCase()} (id:"${p.id}"): ${p.desc}`).join('\n\n');
   const dimTpl=principles.map(p=>`{"name":"${p.name}","principle":"${p.id}","score":75,"verdict":"one sentence referencing intended audience","suggestion":"one concrete improvement"}`).join(',');
   const sys=`You are an editorial quality analyst. Score the page content against these editorial principles for the stated audience.\n\nINTENDED AUDIENCE: "${aud}"\n\nPRINCIPLES:\n${pText}\n\nRespond ONLY with a valid JSON object, no markdown, no preamble:\n{"title":"page title","overall_score":72,"dimensions":[${dimTpl}],"recommendation":"2-3 sentences referencing the intended audience"}`;
  
-  let body,messages;
-  if(activeTab==='url'){
-    setStatus('<span class="spin"></span>Fetching page and analysing…');
-    messages=[{role:'user',content:`Please fetch and score this page: ${url}`}];
-    body={model:'claude-sonnet-4-20250514',max_tokens:1400,system:sys,tools:[{type:'web_fetch_20250910',name:'web_fetch',max_uses:3}],messages};
-  } else {
-    setStatus('<span class="spin"></span>Analysing against editorial principles…');
-    messages=[{role:'user',content:`Page content:\n\n${paste.slice(0,14000)}`}];
-    body={model:'claude-sonnet-4-20250514',max_tokens:1400,system:sys,messages};
-  }
- 
   try{
-    let analysis=null;
-    for(let turn=0;turn<5;turn++){
-      const resp=await fetch('https://api.anthropic.com/v1/messages',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-beta':'web-fetch-2025-09-10','anthropic-dangerous-direct-browser-calls':'true'},
-        body:JSON.stringify({...body,messages})
-      });
-      const data=await resp.json();
-      if(data.error)throw new Error(data.error.message);
-      const texts=(data.content||[]).filter(b=>b.type==='text');
-      const tools=(data.content||[]).filter(b=>b.type==='tool_use');
-      if(data.stop_reason==='end_turn'||!tools.length){
-        const txt=texts.map(b=>b.text).join('');
-        const clean=txt.replace(/```json|```/g,'').trim();
-        const s=clean.indexOf('{'),e=clean.lastIndexOf('}');
-        if(s===-1)throw new Error('No JSON in response');
-        analysis=JSON.parse(clean.slice(s,e+1));break;
-      }
-      messages=[...messages,{role:'assistant',content:data.content},{role:'user',content:tools.map(t=>({type:'tool_result',tool_use_id:t.id,content:'Fetched.'}))}];
-    }
-    if(!analysis)throw new Error('Could not parse score from response.');
-    renderResults(analysis,aud);
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-calls':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1400,system:sys,messages:[{role:'user',content:`Page URL: ${url||'(not provided)'}\n\nPage content:\n\n${paste.slice(0,14000)}`}]})
+    });
+    const data=await resp.json();
+    if(data.error)throw new Error(data.error.message);
+    const txt=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
+    const clean=txt.replace(/```json|```/g,'').trim();
+    const s=clean.indexOf('{'),e=clean.lastIndexOf('}');
+    if(s===-1)throw new Error('No JSON in response');
+    renderResults(JSON.parse(clean.slice(s,e+1)),aud,url);
     document.getElementById('status').style.display='none';
   }catch(err){
     setStatus('Error: '+(err.message||'Something went wrong. Check your API key.'),true);
   }
   document.getElementById('scoreBtn').disabled=false;
 }
- 
-function renderResults(a,aud){
-  const cat=sc(a.overall_score);
-  document.getElementById('audChip').innerHTML=`${SVGS.person}<span><strong>Scored for:</strong> ${aud}</span>`;
-  document.getElementById('resTitle').textContent=a.title||'Untitled page';
-  document.getElementById('overall').className=`overall bg-${cat}`;
-  document.getElementById('overall').innerHTML=`<div class="num c-${cat}">${a.overall_score}</div><div class="lbl c-${cat}">${sl(a.overall_score)}</div>`;
-  const iconMap=Object.fromEntries(principles.map(p=>[p.id,p.icon]));
-  document.getElementById('scoreGrid').innerHTML=a.dimensions.map(d=>{
-    const c=sc(d.score);
-    return `<div class="sc"><div class="slabel">${d.name}</div><div class="snum c-${c}">${d.score}</div><div class="sverd c-${c}">${sl(d.score)}</div></div>`;
-  }).join('');
-  document.getElementById('dimCards').innerHTML=a.dimensions.map(d=>{
-    const c=sc(d.score);const icon=SVGS[iconMap[d.principle]]||SVGS.list;
-    return `<div class="dim">
-      <div class="dim-head">
-        <div class="dim-icon icon-${c}">${icon}</div>
-        <h3>${d.name}${d.detected_type?` <small>(${d.detected_type})</small>`:''}</h3>
-        <span class="dim-badge bg-${c} c-${c}">${d.score}/100</span>
-      </div>
-      <div class="bar"><div class="bar-fill bar-${c}" style="width:${Math.max(3,d.score)}%"></div></div>
-      <p class="dim-verdict">${d.verdict}</p>
-      <div class="dim-tip">${SVGS.bulb}<span>${d.suggestion}</span></div>
-    </div>`;
-  }).join('');
-  document.getElementById('recText').textContent=a.recommendation;
-  document.getElementById('formCard').style.display='none';
-  document.getElementById('results').style.display='block';
-  window.scrollTo({top:0,behavior:'smooth'});
-}
- 
-function resetForm(){
-  document.getElementById('results').style.display='none';
-  document.getElementById('formCard').style.display='block';
-  document.getElementById('status').style.display='none';
-  window.scrollTo({top:0,behavior:'smooth'});
-}
- 
-renderPSummary();renderPEGrid();
-</script>
-</body>
