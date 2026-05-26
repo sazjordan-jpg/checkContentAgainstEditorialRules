@@ -253,3 +253,32 @@ async function runScore(){
   }
   document.getElementById('scoreBtn').disabled=false;
 }
+ 
+function renderResults(a,aud,url){
+  const cat=sc(a.overall_score);
+  document.getElementById('audChip').innerHTML=`${SVGS.person}<span><strong>Scored for:</strong> ${aud}</span>`;
+  document.getElementById('resTitle').textContent=a.title||(url||'Untitled page');
+  document.getElementById('overall').className=`overall bg-${cat}`;
+  document.getElementById('overall').innerHTML=`<div class="num c-${cat}">${a.overall_score}</div><div class="lbl c-${cat}">${sl(a.overall_score)}</div>`;
+  const iconMap=Object.fromEntries(principles.map(p=>[p.id,p.icon]));
+  document.getElementById('scoreGrid').innerHTML=a.dimensions.map(d=>{const c=sc(d.score);return `<div class="sc"><div class="slabel">${d.name}</div><div class="snum c-${c}">${d.score}</div><div class="sverd c-${c}">${sl(d.score)}</div></div>`;}).join('');
+  document.getElementById('dimCards').innerHTML=a.dimensions.map(d=>{
+    const c=sc(d.score);const icon=SVGS[iconMap[d.principle]]||SVGS.list;
+    return `<div class="dim"><div class="dim-head"><div class="dim-icon icon-${c}">${icon}</div><h3>${d.name}${d.detected_type?` <small>(${d.detected_type})</small>`:''}</h3><span class="dim-badge bg-${c} c-${c}">${d.score}/100</span></div><div class="bar"><div class="bar-fill bar-${c}" style="width:${Math.max(3,d.score)}%"></div></div><p class="dim-verdict">${d.verdict}</p><div class="dim-tip">${SVGS.bulb}<span>${d.suggestion}</span></div></div>`;
+  }).join('');
+  document.getElementById('recText').textContent=a.recommendation;
+  document.getElementById('formCard').style.display='none';
+  document.getElementById('results').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+ 
+function resetForm(){
+  document.getElementById('results').style.display='none';
+  document.getElementById('formCard').style.display='block';
+  document.getElementById('status').style.display='none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+ 
+renderPSummary();renderPEGrid();
+</script>
+</body>
