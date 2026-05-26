@@ -6,373 +6,342 @@
 <title>Editorial Scorer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #F7F5F0;
-    --surface: #FFFFFF;
-    --border: #E2DDD6;
-    --border-strong: #C8C2B8;
-    --text: #1A1816;
-    --text-muted: #7A7068;
-    --text-faint: #B0A99F;
-    --accent: #2A4B3C;
-    --accent-light: #EAF2ED;
-    --warn: #7A4A00;
-    --warn-light: #FFF3DC;
-    --danger: #7A1A1A;
-    --danger-light: #FDEAEA;
-    --success: #1A4A2A;
-    --success-light: #E6F4EB;
-    --serif: 'DM Serif Display', Georgia, serif;
-    --sans: 'DM Sans', system-ui, sans-serif;
-  }
-  body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; font-size: 15px; line-height: 1.6; }
-  .page { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
-  header { margin-bottom: 2.5rem; border-bottom: 1px solid var(--border); padding-bottom: 2rem; }
-  .logo-row { display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 0.5rem; }
-  .logo-mark { font-family: var(--serif); font-size: 1.75rem; color: var(--accent); letter-spacing: -0.02em; }
-  .logo-tag { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); border: 1px solid var(--border); padding: 2px 8px; border-radius: 20px; }
-  header p { font-size: 14px; color: var(--text-muted); max-width: 500px; line-height: 1.6; }
-  .principles { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 0.75rem; margin-bottom: 2rem; }
-  .principle-pill { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 0.75rem 1rem; }
-  .principle-pill strong { display: block; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px; }
-  .principle-pill span { color: var(--text); font-size: 12px; line-height: 1.4; }
-  .form-section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; margin-bottom: 1.5rem; }
-  .form-section h2 { font-family: var(--serif); font-size: 1.25rem; font-weight: 400; margin-bottom: 1.25rem; color: var(--text); }
-  label { display: block; font-size: 12px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
-  input[type="text"], textarea { width: 100%; font-family: var(--sans); font-size: 14px; color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; outline: none; transition: border-color 0.15s; resize: vertical; line-height: 1.5; }
-  input[type="text"]:focus, textarea:focus { border-color: var(--accent); }
-  input[type="text"].error, textarea.error { border-color: var(--danger); }
-  .field { margin-bottom: 1.25rem; }
-  .field:last-child { margin-bottom: 0; }
-  .field-hint { font-size: 12px; color: var(--text-faint); margin-top: 5px; line-height: 1.5; }
-  .api-key-row { display: flex; gap: 8px; align-items: flex-start; }
-  .api-key-row input { flex: 1; }
-  .api-key-row a { font-size: 12px; color: var(--accent); text-decoration: none; white-space: nowrap; padding-top: 11px; }
-  .api-key-row a:hover { text-decoration: underline; }
-
-  /* Tabs */
-  .tab-row { display: flex; gap: 4px; margin-bottom: 1.25rem; background: var(--bg); border-radius: 8px; padding: 4px; }
-  .tab-btn { flex: 1; font-family: var(--sans); font-size: 13px; font-weight: 400; color: var(--text-muted); background: transparent; border: none; border-radius: 6px; padding: 7px 12px; cursor: pointer; transition: background 0.15s, color 0.15s; }
-  .tab-btn.active { background: var(--surface); color: var(--text); font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
-
-  button.primary { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #fff; font-family: var(--sans); font-size: 14px; font-weight: 500; border: none; border-radius: 8px; padding: 11px 24px; cursor: pointer; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.01em; }
-  button.primary:hover { opacity: 0.88; }
-  button.primary:active { transform: scale(0.98); }
-  button.primary:disabled { opacity: 0.45; cursor: not-allowed; }
-  button.secondary { display: inline-flex; align-items: center; gap: 6px; background: transparent; color: var(--text-muted); font-family: var(--sans); font-size: 13px; font-weight: 400; border: 1px solid var(--border); border-radius: 8px; padding: 8px 16px; cursor: pointer; transition: background 0.15s, color 0.15s; }
-  button.secondary:hover { background: var(--bg); color: var(--text); }
-  .btn-row { display: flex; align-items: center; gap: 12px; margin-top: 1.5rem; flex-wrap: wrap; }
-
-  .status { display: none; font-size: 13px; color: var(--text-muted); padding: 12px 16px; background: var(--bg); border-radius: 8px; border: 1px solid var(--border); margin-top: 1rem; line-height: 1.5; }
-  .status.error { color: var(--danger); border-color: #F5C0C0; background: var(--danger-light); }
-  .spinner { display: inline-block; width: 13px; height: 13px; border: 2px solid var(--border-strong); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: -2px; margin-right: 6px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  #results { display: none; }
-  .results-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-  .results-title { font-family: var(--serif); font-size: 1.5rem; font-weight: 400; line-height: 1.3; flex: 1; }
-  .overall-badge { display: flex; flex-direction: column; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 0.75rem 1.25rem; min-width: 90px; text-align: center; flex-shrink: 0; }
-  .overall-badge .score-num { font-family: var(--serif); font-size: 2.5rem; line-height: 1; margin-bottom: 3px; }
-  .overall-badge .score-label { font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
-  .audience-chip { display: inline-flex; align-items: flex-start; gap: 8px; background: var(--accent-light); border: 1px solid #C0D8CA; border-radius: 8px; padding: 8px 12px; font-size: 13px; color: var(--accent); line-height: 1.5; margin-bottom: 1.5rem; max-width: 100%; }
-  .audience-chip svg { flex-shrink: 0; margin-top: 2px; }
-  .score-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 2rem; }
-  .score-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; text-align: center; }
-  .score-card .dim-label { font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
-  .score-card .dim-num { font-family: var(--serif); font-size: 1.75rem; line-height: 1; margin-bottom: 4px; }
-  .score-card .dim-verdict { font-size: 11px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
-  .dim-detail { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 10px; }
-  .dim-detail-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  .dim-detail-header .dim-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .dim-detail-header h3 { font-size: 14px; font-weight: 500; flex: 1; line-height: 1.3; }
-  .dim-detail-header h3 small { font-size: 12px; font-weight: 400; color: var(--text-muted); }
-  .dim-badge { font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 20px; flex-shrink: 0; }
-  .bar-track { height: 3px; background: var(--bg); border-radius: 2px; margin-bottom: 12px; overflow: hidden; }
-  .bar-fill { height: 3px; border-radius: 2px; transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-  .dim-verdict-text { font-size: 13px; color: var(--text); margin-bottom: 8px; line-height: 1.55; }
-  .dim-suggestion { font-size: 12px; color: var(--text-muted); line-height: 1.55; display: flex; gap: 6px; align-items: flex-start; }
-  .dim-suggestion svg { flex-shrink: 0; margin-top: 1px; }
-  .recommendation-card { background: var(--accent); color: #fff; border-radius: 12px; padding: 1.5rem; margin-top: 1.5rem; }
-  .recommendation-card .rec-label { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.65; margin-bottom: 8px; }
-  .recommendation-card p { font-size: 14px; line-height: 1.65; opacity: 0.92; }
-
-  .color-good { color: var(--success); } .color-warn { color: var(--warn); } .color-bad { color: var(--danger); }
-  .bg-good { background: var(--success-light); } .bg-warn { background: var(--warn-light); } .bg-bad { background: var(--danger-light); }
-  .bar-good { background: #2D7A4A; } .bar-warn { background: #C07A00; } .bar-bad { background: #C03030; }
-  .icon-good { background: var(--success-light); color: var(--success); } .icon-warn { background: var(--warn-light); color: var(--warn); } .icon-bad { background: var(--danger-light); color: var(--danger); }
-
-  footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-faint); text-align: center; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F8F6F1;--surface:#FFFFFF;--border:#E4DED5;--border-strong:#C8C0B4;
+  --text:#1C1916;--muted:#7A7068;--faint:#B8B0A6;
+  --accent:#1E3A2F;--accent-mid:#2D5443;--accent-light:#EAF2EC;--accent-border:#B8D4C0;
+  --warn:#7A4800;--warn-light:#FFF4E0;--warn-border:#F5D080;
+  --danger:#7A1818;--danger-light:#FDF0F0;--danger-border:#F0BABA;
+  --success:#1A4A28;--success-light:#EBF5EE;--success-border:#A8D4B4;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --radius:10px;--radius-lg:16px;
+}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6}
+.page{max-width:760px;margin:0 auto;padding:3.5rem 1.5rem 6rem}
+ 
+header{margin-bottom:3rem;padding-bottom:2.5rem;border-bottom:1px solid var(--border)}
+.wordmark{font-family:var(--serif);font-size:2rem;color:var(--accent);letter-spacing:-0.02em;font-style:italic;margin-bottom:0.35rem}
+.tagline{font-size:14px;color:var(--muted);max-width:480px;line-height:1.65}
+ 
+.principles-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-bottom:2.5rem}
+.p-pill{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:0.875rem 1rem}
+.p-pill b{display:block;font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.p-pill span{font-size:12px;color:var(--text);line-height:1.45}
+ 
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem;margin-bottom:1.5rem}
+.card h2{font-family:var(--serif);font-size:1.3rem;font-weight:400;margin-bottom:1.5rem;color:var(--text)}
+ 
+label{display:block;font-size:11px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+input[type=text],textarea{width:100%;font-family:var(--sans);font-size:14px;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:10px 13px;outline:none;transition:border-color .15s;resize:vertical;line-height:1.5}
+input[type=text]:focus,textarea:focus{border-color:var(--accent-mid);background:#fff}
+input[type=text].err,textarea.err{border-color:var(--danger)}
+.hint{font-size:12px;color:var(--faint);margin-top:5px;line-height:1.5}
+.field{margin-bottom:1.25rem}
+.field:last-of-type{margin-bottom:0}
+.key-row{display:flex;gap:8px;align-items:flex-start}
+.key-row input{flex:1}
+.key-row a{font-size:12px;color:var(--accent-mid);text-decoration:none;white-space:nowrap;padding-top:11px}
+.key-row a:hover{text-decoration:underline}
+ 
+.tabs{display:flex;gap:3px;background:var(--bg);border-radius:8px;padding:3px;margin-bottom:1rem;border:1px solid var(--border)}
+.tab{flex:1;font-family:var(--sans);font-size:13px;color:var(--muted);background:transparent;border:none;border-radius:6px;padding:7px 10px;cursor:pointer;transition:background .15s,color .15s}
+.tab.on{background:var(--surface);color:var(--text);font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.tp{display:none}.tp.on{display:block}
+ 
+.principles-editor{margin-top:10px}
+.pe-toggle{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.pe-toggle label{margin:0}
+.pe-btns{display:flex;gap:5px}
+.pe-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px}
+.pe-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:0.75rem}
+.pe-card .pname{font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.pe-card .pdesc{font-size:12px;color:var(--text);line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.pe-fields{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.pe-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:0.875rem}
+.pe-item input{width:100%;font-family:var(--sans);font-size:13px;font-weight:500;color:var(--text);background:transparent;border:none;border-bottom:1px solid var(--border);padding:2px 0 6px;outline:none;margin-bottom:8px}
+.pe-item textarea{font-size:13px;padding:7px 9px;border:1px solid var(--border);border-radius:7px}
+ 
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:13px;font-weight:400;color:var(--muted);background:transparent;border:1px solid var(--border);border-radius:8px;padding:6px 14px;cursor:pointer;transition:background .15s,color .15s}
+.btn:hover{background:var(--bg);color:var(--text)}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent);font-size:14px;font-weight:500;padding:11px 24px;border-radius:var(--radius)}
+.btn-primary:hover{background:var(--accent-mid);border-color:var(--accent-mid)}
+.btn-primary:active{transform:scale(.98)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed}
+.btn-row{display:flex;align-items:center;gap:10px;margin-top:1.5rem;flex-wrap:wrap}
+ 
+.status{display:none;font-size:13px;padding:11px 14px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg);color:var(--muted);margin-top:1rem;line-height:1.5}
+.status.err{color:var(--danger);border-color:var(--danger-border);background:var(--danger-light)}
+.spin{display:inline-block;width:13px;height:13px;border:2px solid var(--border-strong);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+ 
+#results{display:none}
+.res-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.res-title{font-family:var(--serif);font-size:1.6rem;font-weight:400;line-height:1.25;flex:1;font-style:italic}
+.overall{text-align:center;border-radius:var(--radius-lg);padding:12px 20px;min-width:88px;flex-shrink:0}
+.overall .num{font-family:var(--serif);font-size:2.75rem;line-height:1;margin-bottom:2px}
+.overall .lbl{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.aud-chip{display:inline-flex;align-items:flex-start;gap:8px;border-radius:var(--radius);padding:8px 12px;font-size:13px;line-height:1.5;margin-bottom:1.5rem;max-width:100%;background:var(--accent-light);border:1px solid var(--accent-border);color:var(--accent)}
+.aud-chip svg{flex-shrink:0;margin-top:2px}
+.score-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:10px;margin-bottom:2rem}
+.sc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.875rem;text-align:center}
+.sc .slabel{font-size:10px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.sc .snum{font-family:var(--serif);font-size:1.9rem;line-height:1;margin-bottom:3px}
+.sc .sverd{font-size:10px;font-weight:500;letter-spacing:.05em;text-transform:uppercase}
+.dim{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem 1.5rem;margin-bottom:10px}
+.dim-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.dim-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dim-icon svg{width:15px;height:15px}
+.dim-head h3{font-size:14px;font-weight:500;flex:1;line-height:1.3;color:var(--text)}
+.dim-head h3 small{font-size:12px;font-weight:400;color:var(--muted)}
+.dim-badge{font-size:12px;font-weight:500;padding:3px 10px;border-radius:20px;flex-shrink:0}
+.bar{height:3px;border-radius:2px;margin-bottom:12px;overflow:hidden;background:var(--bg)}
+.bar-fill{height:3px;border-radius:2px}
+.dim-verdict{font-size:13px;color:var(--text);margin-bottom:8px;line-height:1.6}
+.dim-tip{font-size:12px;color:var(--muted);line-height:1.55;display:flex;gap:6px;align-items:flex-start}
+.dim-tip svg{flex-shrink:0;margin-top:2px;width:13px;height:13px}
+.rec{background:var(--accent);color:#fff;border-radius:var(--radius-lg);padding:1.5rem;margin-top:1.5rem}
+.rec .rec-lbl{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;opacity:.6;margin-bottom:8px}
+.rec p{font-size:14px;line-height:1.7;opacity:.9}
+.info-note{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;font-size:12px;color:var(--muted);margin-top:1.25rem;line-height:1.5}
+ 
+.c-g{color:var(--success)}.c-w{color:var(--warn)}.c-d{color:var(--danger)}
+.bg-g{background:var(--success-light);border-color:var(--success-border)}.bg-w{background:var(--warn-light);border-color:var(--warn-border)}.bg-d{background:var(--danger-light);border-color:var(--danger-border)}
+.bar-g{background:#2D7A4A}.bar-w{background:#C07A00}.bar-d{background:#C03030}
+.icon-g{background:var(--success-light);color:var(--success)}.icon-w{background:var(--warn-light);color:var(--warn)}.icon-d{background:var(--danger-light);color:var(--danger)}
+ 
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--border);font-size:12px;color:var(--faint);text-align:center}
 </style>
 </head>
 <body>
 <div class="page">
-
-  <header>
-    <div class="logo-row">
-      <span class="logo-mark">Editorial Scorer</span>
-      <span class="logo-tag">Beta</span>
+ 
+<header>
+  <div class="wordmark">Editorial Scorer</div>
+  <p class="tagline">Score any page against your editorial principles — audience clarity, naming, relevance, and information type fit.</p>
+</header>
+ 
+<div class="principles-row" id="pSummary"></div>
+ 
+<div class="card" id="formCard">
+  <h2>Score a page</h2>
+ 
+  <div class="field">
+    <label>Anthropic API key</label>
+    <div class="key-row">
+      <input type="text" id="apiKey" placeholder="sk-ant-..." autocomplete="off" />
+      <a href="https://console.anthropic.com/settings/keys" target="_blank">Get a key →</a>
     </div>
-    <p>Score any piece of content against editorial principles — audience clarity, naming, relevance, and information type fit.</p>
-  </header>
-
-  <div class="principles">
-    <div class="principle-pill"><strong>Audience</strong><span>Written for a specific persona, in their language</span></div>
-    <div class="principle-pill"><strong>Naming</strong><span>Uses words the user would use, not internal jargon</span></div>
-    <div class="principle-pill"><strong>Relevance</strong><span>Driven by a real user need, timely and accurate</span></div>
-    <div class="principle-pill"><strong>Info type</strong><span>Clearly fits one of the 5 content buckets</span></div>
+    <p class="hint">Used only in your browser. Never stored or sent anywhere else.</p>
   </div>
-
-  <div class="form-section" id="inputSection">
-    <h2>Score a page</h2>
-
-    <div class="field">
-      <label>Anthropic API key</label>
-      <div class="api-key-row">
-        <input type="text" id="apiKey" placeholder="sk-ant-..." autocomplete="off" />
-        <a href="https://console.anthropic.com/settings/keys" target="_blank">Get a key →</a>
-      </div>
-      <p class="field-hint">Your key is used only in your browser and never stored or sent anywhere else.</p>
-    </div>
-
-    <div class="field">
-      <label>Intended audience</label>
-      <textarea id="audienceInput" rows="3" placeholder="Describe who this page is for — e.g. 'New B2B customers setting up Experlogix for the first time. Familiar with SAP Business One but new to our product.'"></textarea>
-    </div>
-
-    <div class="field">
-      <label>Content source</label>
-      <div class="tab-row">
-        <button class="tab-btn active" onclick="switchTab('url')">Fetch from URL</button>
-        <button class="tab-btn" onclick="switchTab('paste')">Paste content</button>
-      </div>
-
-      <div class="tab-panel active" id="tab-url">
-        <input type="text" id="pageUrl" placeholder="https://example.com/article" />
-        <p class="field-hint">The page will be fetched server-side via the Anthropic API — no CORS issues.</p>
-      </div>
-
-      <div class="tab-panel" id="tab-paste">
-        <textarea id="pageContent" rows="8" placeholder="Paste the full text of the page here. Use your browser's reader mode for a cleaner copy."></textarea>
-      </div>
-    </div>
-
-    <div class="btn-row">
-      <button class="primary" id="scoreBtn" onclick="runScore()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        Score this content
-      </button>
-    </div>
-
-    <div class="status" id="statusMsg"></div>
+ 
+  <div class="field">
+    <label>Intended audience</label>
+    <textarea id="audience" rows="2" placeholder="e.g. Existing customers setting up the product for the first time, familiar with SAP Business One but new to Experlogix."></textarea>
   </div>
-
-  <div id="results">
-    <div class="results-header">
-      <div class="results-title" id="pageTitle"></div>
-      <div class="overall-badge" id="overallBadge"></div>
+ 
+  <div class="field">
+    <label>Content source</label>
+    <div class="tabs">
+      <button class="tab on" onclick="switchTab('url')">Fetch from URL</button>
+      <button class="tab" onclick="switchTab('paste')">Paste content</button>
     </div>
-    <div class="audience-chip" id="audienceChip"></div>
-    <div class="score-grid" id="scoreGrid"></div>
-    <div id="dimCards"></div>
-    <div class="recommendation-card">
-      <div class="rec-label">Overall recommendation</div>
-      <p id="recText"></p>
+    <div class="tp on" id="tp-url">
+      <input type="text" id="pageUrl" placeholder="https://example.com/article" />
+      <p class="hint">Page is fetched server-side via the Anthropic API — no CORS issues.</p>
     </div>
-    <div class="btn-row" style="margin-top:1.5rem;">
-      <button class="secondary" onclick="resetForm()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4"/></svg>
-        Score another page
-      </button>
+    <div class="tp" id="tp-paste">
+      <textarea id="pageContent" rows="7" placeholder="Paste the full text of the page here."></textarea>
     </div>
   </div>
-
-  <footer>Editorial Scorer &mdash; built with the Anthropic API &mdash; your API key stays in your browser</footer>
+ 
+  <div class="field principles-editor">
+    <div class="pe-toggle">
+      <label>Editorial principles</label>
+      <div class="pe-btns">
+        <button class="btn" id="peToggleBtn" onclick="togglePE()">▸ Edit principles</button>
+        <button class="btn" onclick="resetPE()">↺ Reset</button>
+      </div>
+    </div>
+    <div class="pe-grid" id="peGrid"></div>
+    <div id="peFields" style="display:none" class="pe-fields"></div>
+  </div>
+ 
+  <div class="btn-row">
+    <button class="btn btn-primary" id="scoreBtn" onclick="runScore()">Score this content →</button>
+  </div>
+  <div class="status" id="status"></div>
 </div>
-
+ 
+<div id="results">
+  <div class="aud-chip" id="audChip"></div>
+  <div class="res-header">
+    <div class="res-title" id="resTitle"></div>
+    <div class="overall" id="overall"></div>
+  </div>
+  <div class="score-grid" id="scoreGrid"></div>
+  <div id="dimCards"></div>
+  <div class="rec"><div class="rec-lbl">Overall recommendation</div><p id="recText"></p></div>
+  <div class="btn-row" style="margin-top:1.5rem">
+    <button class="btn" onclick="resetForm()">↺ Score another page</button>
+  </div>
+</div>
+ 
+<footer>Editorial Scorer · Built with the Anthropic API · Your API key stays in your browser</footer>
+</div>
+ 
 <script>
-let activeTab = 'url';
-
-function switchTab(tab) {
-  activeTab = tab;
-  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', (i === 0 && tab === 'url') || (i === 1 && tab === 'paste')));
-  document.getElementById('tab-url').classList.toggle('active', tab === 'url');
-  document.getElementById('tab-paste').classList.toggle('active', tab === 'paste');
-}
-
-const SYSTEM = (audience) => `You are an editorial quality analyst. Score the page content against these editorial principles, calibrated for the stated intended audience.
-
-INTENDED AUDIENCE: "${audience}"
-
-Score these four dimensions (0-100), then derive overall_score as their average:
-
-AUDIENCE CLARITY (principle: "audience"): Does the content serve the intended audience? Right level, language, needs?
-NAMING & LANGUAGE (principle: "naming"): Words the intended audience would use mid-problem, or internal jargon?
-RELEVANCE & NEED (principle: "relevance"): Real user need for this audience, timely and accurate, or internally motivated?
-INFORMATION TYPE FIT (principle: "info_type"): Clearly fits one of:
-1. What's new  2. Getting started  3. Learning  4. Doing  5. Fixing
-
-Respond ONLY with a valid JSON object, no markdown, no preamble:
-{"title":"page title","overall_score":72,"dimensions":[{"name":"Audience clarity","principle":"audience","score":80,"verdict":"one sentence referencing intended audience","suggestion":"one concrete improvement"},{"name":"Naming & language","principle":"naming","score":65,"verdict":"...","suggestion":"..."},{"name":"Relevance & need","principle":"relevance","score":70,"verdict":"...","suggestion":"..."},{"name":"Information type fit","principle":"info_type","score":75,"verdict":"...","suggestion":"...","detected_type":"Learning"}],"recommendation":"2-3 sentences referencing the intended audience specifically"}`;
-
-function setStatus(msg, isError) {
-  const el = document.getElementById('statusMsg');
-  el.style.display = 'block';
-  el.className = 'status' + (isError ? ' error' : '');
-  el.innerHTML = msg;
-}
-
-async function runScore() {
-  const apiKey   = document.getElementById('apiKey').value.trim();
-  const audience = document.getElementById('audienceInput').value.trim();
-  const url      = document.getElementById('pageUrl').value.trim();
-  const pasted   = document.getElementById('pageContent').value.trim();
-
-  let valid = true;
-  ['apiKey','audienceInput'].forEach(id => {
-    const val = document.getElementById(id).value.trim();
-    document.getElementById(id).classList.toggle('error', !val);
-    if (!val) valid = false;
-  });
-  if (activeTab === 'url' && !url) { document.getElementById('pageUrl').classList.add('error'); valid = false; }
-  if (activeTab === 'paste' && !pasted) { document.getElementById('pageContent').classList.add('error'); valid = false; }
-  if (!valid) { setStatus('Please fill in all required fields.', true); return; }
-
-  document.getElementById('scoreBtn').disabled = true;
-  document.getElementById('results').style.display = 'none';
-
-  // Build request — URL mode uses web_fetch tool, paste mode sends content directly
-  let requestBody;
-
-  if (activeTab === 'url') {
-    setStatus('<span class="spinner"></span> Fetching page and analysing…');
-    requestBody = {
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1400,
-      system: SYSTEM(audience),
-      tools: [{ type: 'web_fetch_20250910', name: 'web_fetch', max_uses: 3 }],
-      messages: [{ role: 'user', content: `Please fetch and score this page: ${url}` }]
-    };
-  } else {
-    setStatus('<span class="spinner"></span> Analysing against editorial principles…');
-    requestBody = {
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1400,
-      system: SYSTEM(audience),
-      messages: [{ role: 'user', content: `Page content:\n\n${pasted.slice(0, 14000)}` }]
-    };
-  }
-
-  try {
-    // For URL mode we may need to handle tool_use turns
-    let messages = requestBody.messages;
-    let analysis = null;
-
-    for (let turn = 0; turn < 5; turn++) {
-      const resp = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
-          'anthropic-beta': 'web-fetch-2025-09-10',
-          'anthropic-dangerous-direct-browser-calls': 'true'
-        },
-        body: JSON.stringify({ ...requestBody, messages })
-      });
-
-      const data = await resp.json();
-      if (data.error) throw new Error(data.error.message);
-
-      // Collect text blocks
-      const textBlocks = (data.content || []).filter(b => b.type === 'text');
-      const toolUseBlocks = (data.content || []).filter(b => b.type === 'tool_use');
-
-      if (data.stop_reason === 'end_turn' || toolUseBlocks.length === 0) {
-        // Parse JSON from the final text response
-        const text = textBlocks.map(b => b.text).join('');
-        const clean = text.replace(/```json|```/g, '').trim();
-        const s = clean.indexOf('{'), e = clean.lastIndexOf('}');
-        if (s === -1) throw new Error('No JSON found in response');
-        analysis = JSON.parse(clean.slice(s, e + 1));
-        break;
-      }
-
-      // Tool use turn — append assistant message and tool results, then continue
-      messages = [
-        ...messages,
-        { role: 'assistant', content: data.content },
-        {
-          role: 'user',
-          content: toolUseBlocks.map(tb => ({
-            type: 'tool_result',
-            tool_use_id: tb.id,
-            content: 'Tool executed — content has been fetched.'
-          }))
-        }
-      ];
-    }
-
-    if (!analysis) throw new Error('Could not parse a score from the response.');
-    renderResults(analysis, audience, url || '');
-    document.getElementById('statusMsg').style.display = 'none';
-
-  } catch(err) {
-    setStatus('Error: ' + (err.message || 'Something went wrong. Check your API key and try again.'), true);
-  }
-
-  document.getElementById('scoreBtn').disabled = false;
-}
-
-const ICONS = {
-  audience: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
-  naming:   `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`,
-  relevance:`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/></svg>`,
-  info_type:`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>`
+const DEFAULTS=[
+  {id:'audience',name:'Audience clarity',icon:'users',desc:"Written for a specific persona, using their language. Identify who you are writing for and write for them specifically."},
+  {id:'naming',name:'Naming & language',icon:'tag',desc:"Uses words the user would use when in the middle of a problem — not internal product groupings or jargon."},
+  {id:'relevance',name:'Relevance & need',icon:'calendar',desc:"Driven by a real user need, timely and accurate. Content should have a clear trigger from the user's perspective."},
+  {id:'info_type',name:'Information type fit',icon:'list',desc:"Clearly fits one of the 5 buckets: (1) What's new, (2) Getting started, (3) Learning, (4) Doing, (5) Fixing."}
+];
+let principles=JSON.parse(JSON.stringify(DEFAULTS));
+let activeTab='url',peOpen=false;
+ 
+const SVGS={
+  users:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+  tag:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`,
+  calendar:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/></svg>`,
+  list:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>`,
+  bulb:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+  person:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`
 };
-
-function sc(s) { return s >= 75 ? 'good' : s >= 50 ? 'warn' : 'bad'; }
-function sl(s) { return s >= 75 ? 'Good' : s >= 50 ? 'Needs work' : 'Poor'; }
-
-function renderResults(a, audience, url) {
-  const cat = sc(a.overall_score);
-  document.getElementById('pageTitle').textContent = a.title || url || 'Untitled page';
-  document.getElementById('overallBadge').innerHTML = `<div class="score-num color-${cat}">${a.overall_score}</div><div class="score-label color-${cat}">${sl(a.overall_score)}</div>`;
-  document.getElementById('audienceChip').innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span><strong>Scored for:</strong> ${audience}</span>`;
-  document.getElementById('scoreGrid').innerHTML = a.dimensions.map(d => {
-    const c = sc(d.score);
-    return `<div class="score-card"><div class="dim-label">${d.name}</div><div class="dim-num color-${c}">${d.score}</div><div class="dim-verdict color-${c}">${sl(d.score)}</div></div>`;
+ 
+function renderPSummary(){
+  document.getElementById('pSummary').innerHTML=principles.map(p=>`<div class="p-pill"><b>${p.name}</b><span>${p.desc}</span></div>`).join('');
+}
+function renderPEGrid(){
+  document.getElementById('peGrid').innerHTML=principles.map(p=>`<div class="pe-card"><div class="pname">${p.name}</div><div class="pdesc">${p.desc}</div></div>`).join('');
+}
+function renderPEFields(){
+  document.getElementById('peFields').innerHTML=principles.map((p,i)=>`<div class="pe-item">
+    <input type="text" value="${p.name}" oninput="updateP(${i},'name',this.value)" placeholder="Principle name"/>
+    <textarea rows="3" oninput="updateP(${i},'desc',this.value)">${p.desc}</textarea>
+  </div>`).join('');
+}
+function updateP(i,f,v){principles[i][f]=v;renderPSummary();renderPEGrid();}
+function togglePE(){
+  peOpen=!peOpen;
+  document.getElementById('peFields').style.display=peOpen?'flex':'none';
+  document.getElementById('peGrid').style.display=peOpen?'none':'grid';
+  document.getElementById('peToggleBtn').textContent=peOpen?'▴ Hide principles':'▸ Edit principles';
+  if(peOpen)renderPEFields();
+}
+function resetPE(){principles=JSON.parse(JSON.stringify(DEFAULTS));renderPSummary();renderPEGrid();if(peOpen)renderPEFields();}
+function switchTab(t){
+  activeTab=t;
+  document.querySelectorAll('.tab').forEach((b,i)=>b.classList.toggle('on',(i===0&&t==='url')||(i===1&&t==='paste')));
+  document.getElementById('tp-url').classList.toggle('on',t==='url');
+  document.getElementById('tp-paste').classList.toggle('on',t==='paste');
+}
+function setStatus(msg,isErr){
+  const el=document.getElementById('status');
+  el.style.display='block';el.className='status'+(isErr?' err':'');el.innerHTML=msg;
+}
+function sc(s){return s>=75?'g':s>=50?'w':'d';}
+function sl(s){return s>=75?'Good':s>=50?'Needs work':'Poor';}
+ 
+async function runScore(){
+  const key=document.getElementById('apiKey').value.trim();
+  const aud=document.getElementById('audience').value.trim();
+  const url=document.getElementById('pageUrl').value.trim();
+  const paste=document.getElementById('pageContent').value.trim();
+  let ok=true;
+  ['apiKey','audience'].forEach(id=>{const v=document.getElementById(id).value.trim();document.getElementById(id).classList.toggle('err',!v);if(!v)ok=false;});
+  if(activeTab==='url'&&!url){document.getElementById('pageUrl').classList.add('err');ok=false;}
+  if(activeTab==='paste'&&!paste){document.getElementById('pageContent').classList.add('err');ok=false;}
+  if(!ok){setStatus('Please fill in all required fields.',true);return;}
+ 
+  document.getElementById('scoreBtn').disabled=true;
+  document.getElementById('results').style.display='none';
+ 
+  const pText=principles.map(p=>`${p.name.toUpperCase()} (id:"${p.id}"): ${p.desc}`).join('\n\n');
+  const dimTpl=principles.map(p=>`{"name":"${p.name}","principle":"${p.id}","score":75,"verdict":"one sentence referencing intended audience","suggestion":"one concrete improvement"}`).join(',');
+  const sys=`You are an editorial quality analyst. Score the page content against these editorial principles for the stated audience.\n\nINTENDED AUDIENCE: "${aud}"\n\nPRINCIPLES:\n${pText}\n\nRespond ONLY with a valid JSON object, no markdown, no preamble:\n{"title":"page title","overall_score":72,"dimensions":[${dimTpl}],"recommendation":"2-3 sentences referencing the intended audience"}`;
+ 
+  let body,messages;
+  if(activeTab==='url'){
+    setStatus('<span class="spin"></span>Fetching page and analysing…');
+    messages=[{role:'user',content:`Please fetch and score this page: ${url}`}];
+    body={model:'claude-sonnet-4-20250514',max_tokens:1400,system:sys,tools:[{type:'web_fetch_20250910',name:'web_fetch',max_uses:3}],messages};
+  } else {
+    setStatus('<span class="spin"></span>Analysing against editorial principles…');
+    messages=[{role:'user',content:`Page content:\n\n${paste.slice(0,14000)}`}];
+    body={model:'claude-sonnet-4-20250514',max_tokens:1400,system:sys,messages};
+  }
+ 
+  try{
+    let analysis=null;
+    for(let turn=0;turn<5;turn++){
+      const resp=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-beta':'web-fetch-2025-09-10','anthropic-dangerous-direct-browser-calls':'true'},
+        body:JSON.stringify({...body,messages})
+      });
+      const data=await resp.json();
+      if(data.error)throw new Error(data.error.message);
+      const texts=(data.content||[]).filter(b=>b.type==='text');
+      const tools=(data.content||[]).filter(b=>b.type==='tool_use');
+      if(data.stop_reason==='end_turn'||!tools.length){
+        const txt=texts.map(b=>b.text).join('');
+        const clean=txt.replace(/```json|```/g,'').trim();
+        const s=clean.indexOf('{'),e=clean.lastIndexOf('}');
+        if(s===-1)throw new Error('No JSON in response');
+        analysis=JSON.parse(clean.slice(s,e+1));break;
+      }
+      messages=[...messages,{role:'assistant',content:data.content},{role:'user',content:tools.map(t=>({type:'tool_result',tool_use_id:t.id,content:'Fetched.'}))}];
+    }
+    if(!analysis)throw new Error('Could not parse score from response.');
+    renderResults(analysis,aud);
+    document.getElementById('status').style.display='none';
+  }catch(err){
+    setStatus('Error: '+(err.message||'Something went wrong. Check your API key.'),true);
+  }
+  document.getElementById('scoreBtn').disabled=false;
+}
+ 
+function renderResults(a,aud){
+  const cat=sc(a.overall_score);
+  document.getElementById('audChip').innerHTML=`${SVGS.person}<span><strong>Scored for:</strong> ${aud}</span>`;
+  document.getElementById('resTitle').textContent=a.title||'Untitled page';
+  document.getElementById('overall').className=`overall bg-${cat}`;
+  document.getElementById('overall').innerHTML=`<div class="num c-${cat}">${a.overall_score}</div><div class="lbl c-${cat}">${sl(a.overall_score)}</div>`;
+  const iconMap=Object.fromEntries(principles.map(p=>[p.id,p.icon]));
+  document.getElementById('scoreGrid').innerHTML=a.dimensions.map(d=>{
+    const c=sc(d.score);
+    return `<div class="sc"><div class="slabel">${d.name}</div><div class="snum c-${c}">${d.score}</div><div class="sverd c-${c}">${sl(d.score)}</div></div>`;
   }).join('');
-  document.getElementById('dimCards').innerHTML = a.dimensions.map(d => {
-    const c = sc(d.score);
-    const icon = ICONS[d.principle] || ICONS.info_type;
-    return `<div class="dim-detail">
-      <div class="dim-detail-header">
+  document.getElementById('dimCards').innerHTML=a.dimensions.map(d=>{
+    const c=sc(d.score);const icon=SVGS[iconMap[d.principle]]||SVGS.list;
+    return `<div class="dim">
+      <div class="dim-head">
         <div class="dim-icon icon-${c}">${icon}</div>
-        <h3>${d.name}${d.detected_type ? ` <small>(${d.detected_type})</small>` : ''}</h3>
-        <span class="dim-badge bg-${c} color-${c}">${d.score}/100</span>
+        <h3>${d.name}${d.detected_type?` <small>(${d.detected_type})</small>`:''}</h3>
+        <span class="dim-badge bg-${c} c-${c}">${d.score}/100</span>
       </div>
-      <div class="bar-track"><div class="bar-fill bar-${c}" style="width:${Math.max(3,d.score)}%"></div></div>
-      <p class="dim-verdict-text">${d.verdict}</p>
-      <div class="dim-suggestion"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>${d.suggestion}</span></div>
+      <div class="bar"><div class="bar-fill bar-${c}" style="width:${Math.max(3,d.score)}%"></div></div>
+      <p class="dim-verdict">${d.verdict}</p>
+      <div class="dim-tip">${SVGS.bulb}<span>${d.suggestion}</span></div>
     </div>`;
   }).join('');
-  document.getElementById('recText').textContent = a.recommendation;
-  document.getElementById('inputSection').style.display = 'none';
-  document.getElementById('results').style.display = 'block';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('recText').textContent=a.recommendation;
+  document.getElementById('formCard').style.display='none';
+  document.getElementById('results').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
 }
-
-function resetForm() {
-  document.getElementById('results').style.display = 'none';
-  document.getElementById('inputSection').style.display = 'block';
-  document.getElementById('statusMsg').style.display = 'none';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+ 
+function resetForm(){
+  document.getElementById('results').style.display='none';
+  document.getElementById('formCard').style.display='block';
+  document.getElementById('status').style.display='none';
+  window.scrollTo({top:0,behavior:'smooth'});
 }
+ 
+renderPSummary();renderPEGrid();
 </script>
 </body>
-</html>
